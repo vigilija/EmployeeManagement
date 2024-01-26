@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.Business;
+using EmployeeManagement.Business.Exceptions;
 using EmployeeManagement.DataAccess.Entities;
 using EmployeeManagement.Services.Test;
 using System;
@@ -140,5 +141,20 @@ namespace EmployeeManagement.Test
             Assert.Equal(internalEmployee.AttendedCourses, obligatoryCourses);
         }
 
-    }
+        [Fact]
+        public async Task GiveRaise_RaiseBelowMinimumGiven_EmployeeInvalidRaiseExceptionMustBeThrown()
+        {
+            //Arrange
+            var employeeService = new EmployeeService(
+                new EmployeeManagementTestDataRepository(),
+                new EmployeeFactory());
+
+            var internalEmployee = new InternalEmployee("Tadas", "Petraitis", 5, 3000, false, 1);
+
+            //Act & Assert
+            await Assert.ThrowsAsync<EmployeeInvalidRaiseException>(
+                async () =>
+                await employeeService.GiveRaiseAsync(internalEmployee, 50));
+        }
+    } 
 }
