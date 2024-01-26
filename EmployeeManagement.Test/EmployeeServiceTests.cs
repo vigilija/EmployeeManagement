@@ -157,6 +157,7 @@ namespace EmployeeManagement.Test
                 async () =>
                 await employeeService.GiveRaiseAsync(internalEmployee, 50));
         }
+
         [Fact]
         public void NotifyOfAbsence_EmployeeIsAbsent_OnEmployeeIsAbsentMustBeTriggerd()
         {
@@ -172,6 +173,19 @@ namespace EmployeeManagement.Test
                 handler => employeeService.EmployeeIsAbsent +=handler,
                 handler => employeeService.EmployeeIsAbsent -=handler,
                 () => employeeService.NotifyOfAbsence(internalEmployee));
+        }
+
+        [Fact]
+        public void CreateEmployee_IsExternalIsTrue_ReturnTypeMustBeExternalEmployee()
+        {
+            //Arrange
+            var factory = new EmployeeFactory();
+
+            //Act
+            var employee = factory.CreateEmployee("Tadas", "Petrauskas", "Databricks", true);
+
+            //Assert
+            Assert.IsType<ExternalEmployee>(employee);
         }
     } 
 }
