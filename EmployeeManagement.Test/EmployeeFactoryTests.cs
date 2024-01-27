@@ -17,7 +17,7 @@ namespace EmployeeManagement.Test
            // clean up the setup code, if required
         }
 
-        [Fact]
+        [Fact(Skip ="Skip for demo reason.")]
         public void CreateEmployee_ConstructInternalEmployee_SalaryMustBe2500()
         {
             //Arrange
