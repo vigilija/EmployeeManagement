@@ -3,6 +3,7 @@ using EmployeeManagement.Test.Fixtures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,10 +59,51 @@ namespace EmployeeManagement.Test
 
             //Act
             await _employeeServiceFixture.EmployeeService
-                .GiveRaiseAsync (internalEmployee, 200);
+                .GiveRaiseAsync(internalEmployee, 200);
 
             //Assert
             Assert.False(internalEmployee.MinimumRaiseGiven);
+        }
+
+        public static IEnumerable<object[]> ExamplesTestDataForGiveRaise_WithProperty
+        {
+            get
+            {
+                return new List<object[]>
+                {
+                    new object[] {100, true},
+                    new object[] {200, false},
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> ExamplesTestDataForGiveRaise_WithMethod(
+            int testDataInstancesToProvide)
+        {
+             var testData = new List<object[]>
+                {
+                    new object[] {100, true},
+                    new object[] {200, false},
+                };
+            return testData.Take(testDataInstancesToProvide);
+        }
+
+        [Theory]
+      //  [MemberData(nameof(ExamplesTestDataForGiveRaise_WithProperty))]
+        [MemberData(nameof(ExamplesTestDataForGiveRaise_WithMethod), 1, MemberType = typeof(DataDrivenEmployeeServiceTests)]
+        public async Task GivenRaise_RaiseGiven_EmployeeMinimumRaiseGivenMatchesValue(
+            int raiseGiven, bool expectedValueForMinimumRaiseGiven)
+        {
+            //Arrange
+            var internalEmployee = new InternalEmployee(
+                "Brooklyn", "Cannon", 5, 3000, false, 1);
+
+            //Act
+            await _employeeServiceFixture.EmployeeService
+                .GiveRaiseAsync(internalEmployee, raiseGiven);
+
+            //Assert
+            Assert.Equal(expectedValueForMinimumRaiseGiven, internalEmployee.MinimumRaiseGiven);
         }
     }
 }
