@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Test
 {
-    internal class DataDrivenEmployeeServiceTests : IClassFixture<EmployeeServiceFixture>
+    public class DataDrivenEmployeeServiceTests : IClassFixture<EmployeeServiceFixture>
     {
         private readonly EmployeeServiceFixture _employeeServiceFixture;
 
