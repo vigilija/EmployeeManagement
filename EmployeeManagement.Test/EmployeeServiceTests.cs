@@ -24,6 +24,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_Salary")]
         public void CreateInternalEmployee_InternalEmployeeCreated_MustHaveAttendedFirstObligatoryCourse()
         {
             //Arrange
@@ -42,6 +43,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_Salary")]
         public void CreateInternalEmployee_InternalEmployeeCreated_MustHaveAttendedFirstObligatoryCourseWithPredicet()
         {
             //Arrange
@@ -57,6 +59,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_Salary")]
         public void CreateInternalEmployee_InternalEmployeeCreated_MustHaveAttendedSecondObligatoryCourseWithPredicet()
         {
             //Arrange
@@ -72,6 +75,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_Salary")]
         public void CreateInternalEmployee_InternalEmployeeCreated_AttendedCoursesMustMatchObligatoryCourses()
         {
             //Arrange
@@ -90,6 +94,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_Salary")]
         public void CreateInternalEmployee_InternalEmployeeCreated_AttendedCoursesMustNotBeNew()
         {
             //Arrange
@@ -106,6 +111,7 @@ namespace EmployeeManagement.Test
 
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_Salary")]
         public async Task CreateInternalEmployee_InternalEmployeeCreated_AttendedCoursesMustMatchObligatoryCourses_Async()
         {
             //Arrange
@@ -127,6 +133,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_Salary")]
         public async Task GiveRaise_RaiseBelowMinimumGiven_EmployeeInvalidRaiseExceptionMustBeThrown()
         {
             //Arrange
@@ -139,6 +146,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_Salary")]
         public void NotifyOfAbsence_EmployeeIsAbsent_OnEmployeeIsAbsentMustBeTriggerd()
         {
             //Arrange
@@ -159,6 +167,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
+        [Trait("Category", "EmployeeFactory_CreateEmployee_ReturnType")]
         public void CreateEmployee_IsExternalIsTrue_ReturnTypeMustBeExternalEmployee()
         {
             //Arrange
