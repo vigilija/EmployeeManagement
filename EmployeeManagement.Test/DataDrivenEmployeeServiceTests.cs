@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.DataAccess.Entities;
 using EmployeeManagement.Test.Fixtures;
+using EmployeeManagement.Test.TestData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,8 +90,10 @@ namespace EmployeeManagement.Test
         }
 
         [Theory]
-      //  [MemberData(nameof(ExamplesTestDataForGiveRaise_WithProperty))]
-        [MemberData(nameof(ExamplesTestDataForGiveRaise_WithMethod), 1, MemberType = typeof(DataDrivenEmployeeServiceTests)]
+        //  [MemberData(nameof(ExamplesTestDataForGiveRaise_WithProperty))]
+        //[MemberData(nameof(ExamplesTestDataForGiveRaise_WithMethod), 1, MemberType = typeof(DataDrivenEmployeeServiceTests))]
+        [ClassData(typeof(EmployeeServiceTestData))]
+
         public async Task GivenRaise_RaiseGiven_EmployeeMinimumRaiseGivenMatchesValue(
             int raiseGiven, bool expectedValueForMinimumRaiseGiven)
         {
