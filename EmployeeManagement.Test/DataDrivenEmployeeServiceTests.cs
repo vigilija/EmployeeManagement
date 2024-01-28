@@ -89,10 +89,23 @@ namespace EmployeeManagement.Test
             return testData.Take(testDataInstancesToProvide);
         }
 
+        public static TheoryData<int,bool> StronglyTypedExampleTestDataForGiveRaise_WithMethod
+        {
+            get
+            {
+                return new TheoryData<int, bool>
+                {
+                    {100, true},
+                    {200, false},
+                };
+            }
+        }
+
         [Theory]
         //  [MemberData(nameof(ExamplesTestDataForGiveRaise_WithProperty))]
         //[MemberData(nameof(ExamplesTestDataForGiveRaise_WithMethod), 1, MemberType = typeof(DataDrivenEmployeeServiceTests))]
-        [ClassData(typeof(EmployeeServiceTestData))]
+        //[ClassData(typeof(StronglyTypedEmployeeServiceTestData))]
+        [MemberData(nameof(StronglyTypedExampleTestDataForGiveRaise_WithMethod))]
 
         public async Task GivenRaise_RaiseGiven_EmployeeMinimumRaiseGivenMatchesValue(
             int raiseGiven, bool expectedValueForMinimumRaiseGiven)
