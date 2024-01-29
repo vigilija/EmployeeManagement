@@ -42,7 +42,7 @@ namespace EmployeeManagement.Test
         }
 
         [Fact]
-        public void FetchInternalEmployye_EmployeeFetched_SuggestedBonusMustBeCalculatedI()
+        public void FetchInternalEmployye_EmployeeFetched_SuggestedBonusMustBeCalculated_Interface()
         {
             //Arrange
             var employeeManagementTestDataRepositoryMock =
@@ -65,6 +65,36 @@ namespace EmployeeManagement.Test
 
             //Act
             var employee = employService.FetchInternalEmployee(
+               Guid.Empty);
+
+            //Assert
+            Assert.Equal(400, employee.SuggestedBonus);
+        }
+
+        [Fact]
+        public async Task FetchInternalEmployye_EmployeeFetched_SuggestedBonusMustBeCalculated_Async()
+        {
+            //Arrange
+            var employeeManagementTestDataRepositoryMock =
+                new Mock<IEmployeeManagementRepository>();
+
+            employeeManagementTestDataRepositoryMock
+                .Setup(m => m.GetInternalEmployeeAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(new InternalEmployee("Tadas", "Tadauskas", 2, 2500, false, 2)
+                {
+                    AttendedCourses = new List<Course>() {
+                        new Course("A course"), new Course("Another course")
+                    }
+                });
+
+            var employeeMoqFactory = new Mock<EmployeeFactory>();
+
+            var employService = new EmployeeService(
+                employeeManagementTestDataRepositoryMock.Object,
+                employeeMoqFactory.Object);
+
+            //Act
+            var employee = await employService.FetchInternalEmployeeAsync(
                Guid.Empty);
 
             //Assert
