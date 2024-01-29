@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.Business;
 using EmployeeManagement.DataAccess.Entities;
+using EmployeeManagement.DataAccess.Services;
 using EmployeeManagement.Services.Test;
 using Moq;
 
@@ -16,11 +17,11 @@ namespace EmployeeManagement.Test
             //var employeeFactory = new EmployeeFactory();
 
             var employeeMoqFactory = new Mock<EmployeeFactory>();
-            employeeMoqFactory.Setup(m => 
+            employeeMoqFactory.Setup(m =>
             m.CreateEmployee(
-                It.IsAny<string>(), 
-                It.Is<string>(v => v.Contains('a')), 
-                null, 
+                It.IsAny<string>(),
+                It.Is<string>(v => v.Contains('a')),
+                null,
                 false))
                 .Returns(new InternalEmployee("Tadas", "Petrauskas", 5, 2500, false, 1));
 
@@ -38,6 +39,36 @@ namespace EmployeeManagement.Test
 
             //Assert
             Assert.Equal(suggestedBonus, employee.SuggestedBonus);
+        }
+
+        [Fact]
+        public void FetchInternalEmployye_EmployeeFetched_SuggestedBonusMustBeCalculatedI()
+        {
+            //Arrange
+            var employeeManagementTestDataRepositoryMock =
+                new Mock<IEmployeeManagementRepository>();
+
+            employeeManagementTestDataRepositoryMock
+                .Setup(m => m.GetInternalEmployee(It.IsAny<Guid>()))
+                .Returns(new InternalEmployee("Tadas", "Tadauskas", 2, 2500, false, 2)
+                {
+                    AttendedCourses = new List<Course>() {
+                        new Course("A course"), new Course("Another course")
+                    }
+                });
+
+            var employeeMoqFactory = new Mock<EmployeeFactory>();
+
+            var employService = new EmployeeService(
+                employeeManagementTestDataRepositoryMock.Object,
+                employeeMoqFactory.Object);
+
+            //Act
+            var employee = employService.FetchInternalEmployee(
+               Guid.Empty);
+
+            //Assert
+            Assert.Equal(400, employee.SuggestedBonus);
         }
     }
 }
