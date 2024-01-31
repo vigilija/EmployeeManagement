@@ -3,6 +3,7 @@
 using EmployeeManagement.Business;
 using EmployeeManagement.Controllers;
 using EmployeeManagement.DataAccess.Entities;
+using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -10,10 +11,10 @@ namespace EmployeeManagement.Test
 {
     public class EmployeeOverviewTests
     {
-        [Fact]
-        public async Task Index_GetAction_MustReturnViewResult()
+        private EmployeeOverviewController _employeeOverviewController;
+
+        public EmployeeOverviewTests()
         {
-            //Arrange
             var employeeServiceMock = new Mock<IEmployeeService>();
             employeeServiceMock
                 .Setup(m => m.FetchInternalEmployeesAsync())
@@ -23,13 +24,35 @@ namespace EmployeeManagement.Test
                     new InternalEmployee("Tomas", "Petrauskas", 3, 3400, true, 1),
                     new InternalEmployee("Petras", "Petraitis", 3, 4000, false, 3)
                 });
-            var employeeOverviewController = new EmployeeOverviewController(employeeServiceMock.Object, null);
+             _employeeOverviewController = new EmployeeOverviewController(employeeServiceMock.Object, null);
+        }
+
+        [Fact]
+        public async Task Index_GetAction_MustReturnViewResult()
+        {
+            //Arrange
+           
 
             //Act
-            var result = await employeeOverviewController.Index();
+            var result = await _employeeOverviewController.Index();
 
             //Assert
             Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task Index_GetAction_MustReturnEmployeeOverviewViewModelAsViewModelType()
+        {
+            //Arrange
+            //Act
+            var result = await _employeeOverviewController.Index();
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            Assert.IsType<EmployeeOverviewViewModel>(viewResult.Model);
+
+            //Assert.IsType<EmployeeOverviewViewModel>(((ViewResult)result).Model);
         }
     }
 }
