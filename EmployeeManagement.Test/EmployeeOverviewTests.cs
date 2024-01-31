@@ -54,5 +54,19 @@ namespace EmployeeManagement.Test
 
             //Assert.IsType<EmployeeOverviewViewModel>(((ViewResult)result).Model);
         }
+        [Fact]
+        public async Task Index_GetAction_MustReturnNumberOfInputtedInternalEmployees()
+        {
+            //Arrange
+
+            //Act
+            var result = await _employeeOverviewController.Index();
+
+            //Assert
+            Assert.Equal(3,
+                ((EmployeeOverviewViewModel)((ViewResult)result).Model)
+                .InternalEmployees.Count);
+
+        }
     }
 }
