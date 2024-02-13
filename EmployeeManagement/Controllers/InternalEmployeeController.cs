@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using EmployeeManagement.Business;
+using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
 {
+    [Route("api/internalemployees")]
+    [ApiController]
     public class InternalEmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
@@ -18,9 +21,45 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddInternalEmployee()
+        public async Task<ActionResult<IEnumerable<InternalEmployeeDto>>> GetInternalEmployees()
         {
-            return View(new CreateInternalEmployeeViewModel()); 
+            var internalEmployees = await _employeeService.FetchInternalEmployeesAsync();
+
+            // with manual mapping
+            //var internalEmployeeDtos =
+            //    internalEmployees.Select(e => new InternalEmployeeDto()
+            //    {
+            //        Id = e.Id,
+            //        FirstName = e.FirstName,
+            //        LastName = e.LastName,
+            //        Salary = e.Salary,
+            //        SuggestedBonus = e.SuggestedBonus,
+            //        YearsInService = e.YearsInService
+            //    });
+
+            // with AutoMapper
+            var internalEmployeeDtos =
+                _mapper.Map<IEnumerable<InternalEmployeeDto>>(internalEmployees);
+
+            return Ok(internalEmployeeDtos);
+        }
+
+        [HttpGet("{employeeId}", Name = "GetInternalEmployee")]
+        public async Task<ActionResult<InternalEmployeeDto>> GetInternalEmployee(
+            Guid? employeeId)
+        {
+            if (!employeeId.HasValue)
+            {
+                return NotFound();
+            }
+
+            var internalEmployee = await _employeeService.FetchInternalEmployeeAsync(employeeId.Value);
+            if (internalEmployee == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<InternalEmployeeDto>(internalEmployee));
         }
 
         [HttpPost]

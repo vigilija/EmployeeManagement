@@ -8,7 +8,8 @@ namespace EmployeeManagement.MapperProfiles
         public EmployeeProfile()
         {
             CreateMap<InternalEmployee, ViewModels.InternalEmployeeForOverviewViewModel>();
-            CreateMap<InternalEmployee, ViewModels.InternalEmployeeDetailViewModel>(); 
+            CreateMap<InternalEmployee, ViewModels.InternalEmployeeDetailViewModel>();
+            CreateMap<InternalEmployee, Models.InternalEmployeeDto>();
         }
     }
 }
